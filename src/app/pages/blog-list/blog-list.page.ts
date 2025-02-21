@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router'; // ✅ Add this for `routerLink`
@@ -41,18 +41,24 @@ import { BlogService, Blog } from '../../services/blog.service';
 export class BlogListPage implements OnInit {
   blogs: Blog[] = [];
 
-  constructor(private blogService: BlogService) {}
+  // ✅ Use Angular's inject() instead of constructor injection
+  private blogService = inject(BlogService);
 
   ngOnInit() {
     this.fetchBlogs();
   }
 
+  /** Fetch blogs from Firestore */
   fetchBlogs() {
     this.blogService.getBlogs().subscribe(blogs => {
-      this.blogs = blogs;
+      this.blogs = blogs.map(blog => ({
+        ...blog,
+        id: blog.id || 'new' // ✅ Ensure every blog has an `id`
+      }));
     });
   }
 
+  /** Delete a blog */
   deleteBlog(id: string | undefined) {
     if (id) {
       this.blogService.deleteBlog(id);

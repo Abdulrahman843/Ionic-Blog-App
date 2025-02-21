@@ -21,10 +21,11 @@
       <ion-button color="danger" (click)="deleteBlog(blog.id)">Delete</ion-button>
       <ion-button
         color="primary"
-        [routerLink]="['/edit-blog', blog.id ?? '']"
+        [routerLink]="['/edit-blog', blog.id || 'new']"
         [disabled]="!blog.id">
         Edit
       </ion-button>
+
     </ion-item>
   </ion-list>
 

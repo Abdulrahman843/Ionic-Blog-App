@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Edit Blog</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Edit Blog</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <!-- Blog Title Input -->
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="blog.title"></ion-input>
+    </ion-item>
+
+    <!-- Blog Content Input -->
+    <ion-item>
+      <ion-label position="floating">Content</ion-label>
+      <ion-textarea [(ngModel)]="blog.content"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <!-- Save Changes Button -->
+  <ion-button expand="full" (click)="updateBlog()">Save Changes</ion-button>
+
+  <!-- Cancel Button -->
+  <ion-button expand="full" color="medium" routerLink="/blog-list">Cancel</ion-button>
+</ion-content>

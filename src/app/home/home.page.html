@@ -1,22 +1,32 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Welcome to My Blog App
-    </ion-title>
+    <ion-title>My Blog App</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Welcome</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div class="home-container">
+    <h2>Start Writing Now</h2>
+    <p>Share your thoughts and ideas with the world.</p>
 
-  <div id="container" style="text-align: center; margin-top: 40px;">
-    <!-- ✅ Improved Button Styling -->
-    <ion-button shape="round" size="large" color="primary" routerLink="/blog-list">
-      Go to Blog List
+    <div class="button-group">
+      <!-- Create Blog Button -->
+      <ion-button expand="full" (click)="goToCreateBlog()">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Create Blog
+      </ion-button>
+
+      <!-- Button to View Blogs (Fix Navigation) -->
+    <ion-button expand="full" color="secondary" (click)="goToViewBlog()">
+      <ion-icon slot="start" name="list-outline"></ion-icon>
+      View Blogs
     </ion-button>
+
+      <!-- Cancel Button (Navigates Back) -->
+      <ion-button expand="full" color="medium" (click)="cancel()">
+        <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+        Cancel
+      </ion-button>
+    </div>
   </div>
 </ion-content>

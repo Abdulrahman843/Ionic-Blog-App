@@ -32,8 +32,7 @@
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": [],
-            "allowedCommonJsDependencies": ["lodash", "moment"]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -42,21 +41,20 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": false,
-              "crossOrigin": "anonymous",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "700kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [
@@ -70,10 +68,10 @@
               "optimization": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "buildOptimizer": false              }
+              "aot": false
+            }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -89,8 +87,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

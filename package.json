@@ -1,5 +1,5 @@
 {
-  "name": "BlogApp",
+  "name": "blog-app",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -19,9 +19,11 @@
     "@angular/core": "^19.0.0",
     "@angular/fire": "^19.0.0",
     "@angular/forms": "^19.0.0",
+    "@angular/localize": "^19.1.7",
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+    "@angular/service-worker": "^19.1.7",
     "@capacitor/app": "7.0.0",
     "@capacitor/core": "7.0.1",
     "@capacitor/haptics": "7.0.0",

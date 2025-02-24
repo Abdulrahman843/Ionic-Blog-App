@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router'; // Import ActivatedRoute and Router
+import { ActivatedRoute, Router } from '@angular/router'; // Inject ActivatedRoute and Router
+
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonInput, IonTextarea, IonButton, IonList
 } from '@ionic/angular/standalone';
-import { BlogService, Blog } from '../../services/blog.service'; // Import Firestore Service
+
+import { BlogService, Blog } from '../../services/blog.service';
 
 @Component({
   selector: 'app-edit-blog',
@@ -21,11 +23,10 @@ export class EditBlogPage implements OnInit {
   blogId: string = ''; // Holds the blog ID
   blog: Blog = { title: '', content: '', createdAt: Date.now() }; // Holds blog data
 
-  constructor(
-    private route: ActivatedRoute,
-    private blogService: BlogService,
-    private router: Router
-  ) {}
+  // Use Angular's inject() instead of constructor injection
+  private route = inject(ActivatedRoute);
+  private blogService = inject(BlogService);
+  private router = inject(Router);
 
   ngOnInit() {
     this.blogId = this.route.snapshot.paramMap.get('id') || ''; // Get blog ID from URL
@@ -45,9 +46,9 @@ export class EditBlogPage implements OnInit {
   }
 
   /** Update Blog in Firestore */
-  updateBlog() {
+  async updateBlog() {
     if (this.blogId && this.blog.title.trim() && this.blog.content.trim()) {
-      this.blogService.updateBlog(this.blogId, {
+      await this.blogService.updateBlog(this.blogId, {
         title: this.blog.title,
         content: this.blog.content
       }).then(() => {

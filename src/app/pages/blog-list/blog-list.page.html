@@ -19,13 +19,9 @@
         <p>{{ blog.content }}</p>
       </ion-label>
       <ion-button color="danger" (click)="deleteBlog(blog.id)">Delete</ion-button>
-      <ion-button
-        color="primary"
-        [routerLink]="['/edit-blog', blog.id || 'new']"
-        [disabled]="!blog.id">
+      <ion-button color="primary" (click)="editBlog(blog.id)" [disabled]="!blog.id">
         Edit
       </ion-button>
-
     </ion-item>
   </ion-list>
 
@@ -35,5 +31,5 @@
   </ng-template>
 
   <!-- Create Blog Button -->
-  <ion-button expand="full" routerLink="/create-blog">Create Blog</ion-button>
+  <ion-button expand="full" (click)="createBlog()">Create Blog</ion-button>
 </ion-content>

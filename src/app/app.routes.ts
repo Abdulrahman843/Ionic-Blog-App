@@ -1,22 +1,24 @@
 import { Routes } from '@angular/router';
-import { RouterModule } from '@angular/router';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'blog-list', // ✅ Default route to blog list
-    pathMatch: 'full',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePage)
   },
   {
     path: 'blog-list',
-    loadComponent: () => import('./pages/blog-list/blog-list.page').then(m => m.BlogListPage),
+    loadComponent: () => import('./pages/blog-list/blog-list.page').then(m => m.BlogListPage)
   },
   {
     path: 'create-blog',
-    loadComponent: () => import('./pages/create-blog/create-blog.page').then(m => m.CreateBlogPage),
+    loadComponent: () => import('./pages/create-blog/create-blog.page').then(m => m.CreateBlogPage)
   },
   {
     path: 'edit-blog/:id',
-    loadComponent: () => import('./pages/edit-blog/edit-blog.page').then(m => m.EditBlogPage),
+    loadComponent: () => import('./pages/edit-blog/edit-blog.page').then(m => m.EditBlogPage)
   },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];

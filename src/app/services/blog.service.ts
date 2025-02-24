@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, addDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -10,33 +10,50 @@ export interface Blog {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BlogService {
-  private blogsCollection = collection(this.firestore, 'blogs'); // Firestore Collection
+  private blogsCollection;
 
-  constructor(@Inject(Firestore) private firestore: Firestore) {} // Use Inject decorator
+  constructor(private firestore: Firestore) {
+    this.blogsCollection = collection(this.firestore, 'blogs'); // ✅ Firestore injected correctly
+  }
 
-  /** Fetch all blogs */
+  /** ✅ Fetch Blogs */
   getBlogs(): Observable<Blog[]> {
     return collectionData(this.blogsCollection, { idField: 'id' }) as Observable<Blog[]>;
   }
 
-  /** Create a new blog */
-  addBlog(blog: Blog) {
-    blog.createdAt = Date.now();
-    return addDoc(this.blogsCollection, blog);
+  /** ✅ Add Blog (With Error Handling) */
+  async addBlog(blog: Blog): Promise<void> {
+    try {
+      blog.createdAt = Date.now();
+      await addDoc(this.blogsCollection, blog);
+      console.log("✅ Blog added successfully:", blog);
+    } catch (error) {
+      console.error("❌ Error adding blog:", error);
+    }
   }
 
-  /** Update an existing blog */
-  updateBlog(id: string, data: Partial<Blog>) {
-    const blogRef = doc(this.firestore, `blogs/${id}`);
-    return updateDoc(blogRef, data);
+  /** ✅ Update Blog (With Error Handling) */
+  async updateBlog(id: string, data: Partial<Blog>): Promise<void> {
+    try {
+      const blogDoc = doc(this.firestore, `blogs/${id}`);
+      await updateDoc(blogDoc, data);
+      console.log("✅ Blog updated successfully:", data);
+    } catch (error) {
+      console.error("❌ Error updating blog:", error);
+    }
   }
 
-  /** Delete a blog */
-  deleteBlog(id: string) {
-    const blogRef = doc(this.firestore, `blogs/${id}`);
-    return deleteDoc(blogRef);
+  /** ✅ Delete Blog (With Error Handling) */
+  async deleteBlog(id: string): Promise<void> {
+    try {
+      const blogDoc = doc(this.firestore, `blogs/${id}`);
+      await deleteDoc(blogDoc);
+      console.log("✅ Blog deleted successfully:", id);
+    } catch (error) {
+      console.error("❌ Error deleting blog:", error);
+    }
   }
 }

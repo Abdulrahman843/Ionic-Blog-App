@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router'; // ✅ Add this for `routerLink`
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';  // ✅ Import Subscription for cleanup
 
-// ✅ Import Ionic components correctly from `@ionic/angular/standalone`
+// ✅ Import Ionic components correctly
 import {
   IonContent,
   IonHeader,
@@ -13,7 +14,7 @@ import {
   IonItem,
   IonLabel,
   IonButton,
-  IonText  // ✅ Import `IonText`
+  IonText
 } from '@ionic/angular/standalone';
 
 import { BlogService, Blog } from '../../services/blog.service';
@@ -24,7 +25,8 @@ import { BlogService, Blog } from '../../services/blog.service';
   styleUrls: ['./blog-list.page.scss'],
   standalone: true,
   imports: [
-    RouterModule, // ✅ Required for `routerLink`
+    CommonModule,
+    FormsModule,
     IonContent,
     IonHeader,
     IonTitle,
@@ -33,16 +35,15 @@ import { BlogService, Blog } from '../../services/blog.service';
     IonItem,
     IonLabel,
     IonButton,
-    IonText, // ✅ Required for `<ion-text>`
-    CommonModule,
-    FormsModule
+    IonText
   ]
 })
-export class BlogListPage implements OnInit {
+export class BlogListPage implements OnInit, OnDestroy {
   blogs: Blog[] = [];
+  private blogSubscription?: Subscription;  // ✅ Store subscription for cleanup
 
-  // ✅ Use Angular's inject() instead of constructor injection
   private blogService = inject(BlogService);
+  private router = inject(Router);
 
   ngOnInit() {
     this.fetchBlogs();
@@ -50,18 +51,37 @@ export class BlogListPage implements OnInit {
 
   /** Fetch blogs from Firestore */
   fetchBlogs() {
-    this.blogService.getBlogs().subscribe(blogs => {
+    this.blogSubscription = this.blogService.getBlogs().subscribe(blogs => {
       this.blogs = blogs.map(blog => ({
         ...blog,
-        id: blog.id || 'new' // ✅ Ensure every blog has an `id`
+        id: blog.id || 'new'  // ✅ Ensure every blog has an `id`
       }));
     });
   }
 
-  /** Delete a blog */
-  deleteBlog(id: string | undefined) {
+  /** Navigate to Edit Blog */
+  editBlog(id: string | undefined) {
     if (id) {
-      this.blogService.deleteBlog(id);
+      this.router.navigate(['/edit-blog', id]);
+    }
+  }
+
+  /** Delete a blog */
+  async deleteBlog(id: string | undefined) {
+    if (id) {
+      await this.blogService.deleteBlog(id);
+    }
+  }
+
+  /** Navigate to Create Blog */
+  createBlog() {
+    this.router.navigate(['/create-blog']);
+  }
+
+  /** ✅ Cleanup subscription on destroy */
+  ngOnDestroy() {
+    if (this.blogSubscription) {
+      this.blogSubscription.unsubscribe();
     }
   }
 }

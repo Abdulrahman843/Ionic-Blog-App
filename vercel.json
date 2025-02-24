@@ -10,13 +10,5 @@
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
   ],
-  "framework": "angular",
-  "env": {
-    "FIREBASE_API_KEY": "AIzaSyAIeL_mxRrW08WXoZiOt1TvYM99QnEh4BI",
-    "FIREBASE_AUTH_DOMAIN": "blogapp-73bf1.firebaseapp.com",
-    "FIREBASE_PROJECT_ID": "blogapp-73bf1",
-    "FIREBASE_STORAGE_BUCKET": "blogapp-73bf1.appspot.com",
-    "FIREBASE_MESSAGING_SENDER_ID": "428977070777",
-    "FIREBASE_APP_ID": "1:428977070777:web:71003ca87541da52f93168"
-  }
+  "framework": "angular"
 }
